@@ -22,11 +22,13 @@ interface GameContextType {
 export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const BE_URL = import.meta.env.VITE_BE_URL;
+
   const navigate = useNavigate();
   useEffect(() => {
     let ws: WebSocket;
     try {
-      ws = new WebSocket("ws://localhost:8080/ws");
+      ws = new WebSocket(BE_URL);
     } catch (e) {
       console.log("WS ERROR: " + e);
       return;
