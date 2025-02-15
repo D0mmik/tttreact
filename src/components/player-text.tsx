@@ -1,10 +1,12 @@
+import { Circle, X } from "lucide-react";
+
 export default function PlayerText({ isX }: { isX: boolean | undefined }) {
   return (
     <>
       {isX ? (
-        <span className="text-red-500">X</span>
+        <X color="#ff0000" size="30" />
       ) : (
-        <span className="text-blue-500">O</span>
+        <Circle color="#0062ff" size="30" />
       )}
     </>
   );

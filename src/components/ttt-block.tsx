@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { ReactNode, useContext } from "react";
 import { GameContext } from "./game-context.tsx";
+import { Circle, X } from "lucide-react";
 
 export default function TttBlock({
   index,
@@ -17,13 +18,13 @@ export default function TttBlock({
   const { state } = context;
 
   let color = "";
-  let symbol = "";
+  let symbol: ReactNode;
   if (blockState == 2) {
     color = "text-blue-500";
-    symbol = "O";
+    symbol = <Circle color="#0062ff" size="110" />;
   } else if (blockState == 1) {
     color = "text-red-500";
-    symbol = "X";
+    symbol = <X color="#ff0000" size="130" />;
   }
 
   function gameMove() {

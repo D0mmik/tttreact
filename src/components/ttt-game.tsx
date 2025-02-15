@@ -39,11 +39,11 @@ export default function TttGame() {
       {(state.game?.gameIsRunning || state.winner != null) && (
         <>
           <div className="flex-col mt-10 items-center text-center text-2xl gap-6 flex">
-            <p>
+            <p className="flex items-center justify-center align-middle gap-2">
               You are <PlayerText isX={state.isX} />
             </p>
             {state.winner == -1 && (
-              <p>
+              <p className="flex items-center justify-center align-middle gap-2">
                 <PlayerText isX={state.game?.xPlays} /> Plays
               </p>
             )}
@@ -52,7 +52,7 @@ export default function TttGame() {
                 {state.winner == 0 ? (
                   <p>IT'S A DRAW</p>
                 ) : (
-                  <p>
+                  <p className="flex items-center justify-center align-middle gap-2 text-4xl">
                     <PlayerText isX={state.winner == 1} /> WINNER
                   </p>
                 )}
