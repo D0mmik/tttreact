@@ -7,7 +7,7 @@ export default function RoomButton({ room }: { room: Room }) {
   const context = useContext(GameContext);
 
   if (!context) {
-    throw new Error("UserProfile must be used within a GameContextProvider");
+    throw new Error("GameContext must be used within a GameContextProvider");
   }
 
   const { state } = context;

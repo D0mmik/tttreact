@@ -16,6 +16,7 @@ interface GameState {
   isX: boolean;
   sendMessage: (message: string) => void;
   game: Game | null;
+  winner: number | null;
 }
 
 interface GameContextType {
@@ -39,7 +40,6 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
     }
 
     ws.onopen = () => {
-      console.log("OPEN");
       setState((state) => ({
         ...state,
         connected: true,
@@ -50,7 +50,6 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
     };
 
     ws.onmessage = (message) => {
-      console.log(message.data);
       let data = null;
       try {
         data = JSON.parse(message.data);
@@ -58,28 +57,34 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
         console.log("JSON ERROR" + e);
       }
 
-      if (data.userCount) {
+      if (data.userCount != null) {
         setState((state) => ({
           ...state,
           userCount: data.userCount,
         }));
       }
-      if (data.readyCount) {
+      if (data.readyCount != null) {
         setState((state) => ({
           ...state,
           readyCount: data.readyCount,
         }));
       }
-      if (data.isX) {
+      if (data.isX != null) {
         setState((state) => ({
           ...state,
           isX: data.isX,
         }));
       }
-      if (data.rooms) {
+      if (data.rooms != null) {
         setState((state) => ({
           ...state,
           rooms: data.rooms,
+        }));
+      }
+      if (data.winner != null) {
+        setState((state) => ({
+          ...state,
+          winner: data.winner,
         }));
       }
       if (data.joinedRoom) {
@@ -95,8 +100,6 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
           ...state,
           game: data.game,
         }));
-
-        console.log(data.game);
       }
     };
 
@@ -113,6 +116,7 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const [state, setState] = useState<GameState>({
+    winner: null,
     connected: false,
     userCount: 0,
     readyCount: 0,

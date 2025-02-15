@@ -11,7 +11,7 @@ export default function TttBlock({
   const context = useContext(GameContext);
 
   if (!context) {
-    throw new Error("UserProfile must be used within a GameContextProvider");
+    throw new Error("GameContext must be used within a GameContextProvider");
   }
 
   const { state } = context;
@@ -31,7 +31,8 @@ export default function TttBlock({
       !state.joinedRoom?.isPlayer ||
       state.game?.blocks[index] != 0 ||
       (state.isX && !state.game.xPlays) ||
-      (!state.isX && state.game.xPlays)
+      (!state.isX && state.game.xPlays) ||
+      !state.game.gameIsRunning
     )
       return;
     const message = {
@@ -39,12 +40,11 @@ export default function TttBlock({
       value: index.toString(),
     };
     state.sendMessage(JSON.stringify(message));
-    console.log(JSON.stringify(message));
   }
 
   return (
     <div
-      className="bg-neutral-900 max-sm:w-24 max-sm:h-24 w-44 h-44 m-2 rounded-2xl flex justify-center items-center text-8xl"
+      className="bg-neutral-900 max-sm:w-24 max-sm:h-24 w-44 h-44 m-2 rounded-2xl flex justify-center items-center text-8xl font-medium"
       onClick={gameMove}
     >
       <p className={color}>{symbol}</p>

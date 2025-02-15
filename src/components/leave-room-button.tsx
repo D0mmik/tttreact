@@ -9,7 +9,7 @@ export default function LeaveRoomButton() {
   const navigate = useNavigate();
 
   if (!context) {
-    throw new Error("UserProfile must be used within a GameContextProvider");
+    throw new Error("GameContext must be used within a GameContextProvider");
   }
 
   const { state, setState } = context;
@@ -26,6 +26,8 @@ export default function LeaveRoomButton() {
       gameIsRunning: false,
       joinedRoom: null,
       ready: false,
+      game: null,
+      isX: false,
     }));
   }
 

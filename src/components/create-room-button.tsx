@@ -8,7 +8,7 @@ export default function CreateRoomButton() {
   const ref = useRef<HTMLInputElement>(null);
 
   if (!context) {
-    throw new Error("UserProfile must be used within a GameContextProvider");
+    throw new Error("GameContext must be used within a GameContextProvider");
   }
 
   const { state } = context;
