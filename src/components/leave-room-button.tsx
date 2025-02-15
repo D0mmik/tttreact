@@ -12,7 +12,7 @@ export default function LeaveRoomButton() {
     throw new Error("UserProfile must be used within a GameContextProvider");
   }
 
-  const { state } = context;
+  const { state, setState } = context;
 
   function leaveGame() {
     const message = {
@@ -20,6 +20,13 @@ export default function LeaveRoomButton() {
     };
     state.sendMessage(JSON.stringify(message));
     navigate("/");
+    setState((state) => ({
+      ...state,
+      readyCount: 0,
+      gameIsRunning: false,
+      joinedRoom: null,
+      ready: false,
+    }));
   }
 
   return (

@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { Room } from "../lib/types.ts";
+import { Game, Room } from "../lib/types.ts";
 
 export const GameContext = createContext<GameContextType | undefined>(
   undefined,
@@ -9,9 +9,13 @@ export const GameContext = createContext<GameContextType | undefined>(
 interface GameState {
   connected: boolean;
   userCount: number;
+  readyCount: number;
   rooms: Room[];
   joinedRoom: Room | null;
+  ready: boolean;
+  isX: boolean;
   sendMessage: (message: string) => void;
+  game: Game | null;
 }
 
 interface GameContextType {
@@ -60,6 +64,18 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
           userCount: data.userCount,
         }));
       }
+      if (data.readyCount) {
+        setState((state) => ({
+          ...state,
+          readyCount: data.readyCount,
+        }));
+      }
+      if (data.isX) {
+        setState((state) => ({
+          ...state,
+          isX: data.isX,
+        }));
+      }
       if (data.rooms) {
         setState((state) => ({
           ...state,
@@ -73,6 +89,14 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
         }));
 
         navigate("/room/" + data.joinedRoom.id);
+      }
+      if (data.game) {
+        setState((state) => ({
+          ...state,
+          game: data.game,
+        }));
+
+        console.log(data.game);
       }
     };
 
@@ -91,11 +115,15 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
   const [state, setState] = useState<GameState>({
     connected: false,
     userCount: 0,
+    readyCount: 0,
     rooms: [],
     joinedRoom: null,
+    ready: false,
+    isX: false,
     sendMessage: (message: string) => {
       console.warn("WebSocket is not connected yet.", message);
     },
+    game: null,
   });
 
   return (
