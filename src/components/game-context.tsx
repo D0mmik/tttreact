@@ -8,6 +8,7 @@ export const GameContext = createContext<GameContextType | undefined>(
 
 interface GameState {
   connected: boolean;
+  loading: boolean;
   userCount: number;
   readyCount: number;
   rooms: Room[];
@@ -33,9 +34,18 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     let ws: WebSocket;
     try {
+      setState((state) => ({
+        ...state,
+        loading: true,
+      }));
       ws = new WebSocket(BE_URL);
     } catch (e) {
       console.log("WS ERROR: " + e);
+      console.log("ZDE");
+      setState((state) => ({
+        ...state,
+        loading: false,
+      }));
       return;
     }
 
@@ -43,6 +53,7 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
       setState((state) => ({
         ...state,
         connected: true,
+        loading: false,
         sendMessage: (message: string) => {
           ws.send(message);
         },
@@ -118,6 +129,7 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
   const [state, setState] = useState<GameState>({
     winner: null,
     connected: false,
+    loading: false,
     userCount: 0,
     readyCount: 0,
     rooms: [],

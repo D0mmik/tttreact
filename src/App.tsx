@@ -14,10 +14,11 @@ function App() {
 
   const { state } = context;
 
-  if (!state.connected) {
+  if (!state.connected && state.loading) {
     return (
-      <div className="w-screen h-screen flex justify-center items-center text-2xl">
-        <p>YOU ARE NOT CONNECTED</p>
+      <div className="w-screen h-screen flex justify-center items-center text-2xl flex-col">
+        <p>loading...</p>
+        <p>can take up to two minutes</p>
       </div>
     );
   }
